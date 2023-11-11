@@ -1,27 +1,103 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { nanoid } from 'nanoid'
-
+import { serviceGetContactsApi, servicePostContact, serviceDeletContact } from 'serviceApi/serviceApi'
 
 
 export const contactSlice = createSlice({
     name:'contact',
-    initialState: [
-          {id: nanoid(), name: 'Rosie Simpson', number: '459-12-56'},
-          {id: nanoid(), name: 'Hermione Kline', number: '443-89-12'},
-          {id: nanoid(), name: 'Eden Clements', number: '645-17-79'},
-          {id: nanoid(), name: 'Annie Copeland', number: '227-91-26'},
-        ],
-    reducers:{
-        addContact(state,action){
-            state.push({id:nanoid(), name:action.payload.name, number:action.payload.number})
-            },
-        removeContact(state,action){
-             return state.filter(elem => elem.id !== action.payload)
-        }
-        
+    initialState: {
+        items: [],
+        isLoading: false,
+        error: null
+      },
+    extraReducers: (builder) => {
+        builder
+        .addCase(serviceGetContactsApi.pending,(state,action)=>{
+            state.isLoading = true;
+
+        })
+        .addCase(serviceGetContactsApi.fulfilled, (state,action)=>{
+                state.isLoading = false;
+                state.error = null
+                state.items = action.payload;
+            })
+            .addCase(serviceGetContactsApi.rejected,(state,action)=>{
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+
+            
+        builder
+        .addCase(servicePostContact.pending,(state,action)=>{
+            state.isLoading = true;
+        })
+        .addCase(servicePostContact.fulfilled,(state,action)=>{
+                state.isLoading = false;
+                state.error = null
+                state.items = [...state.items,action.payload]
+        })
+          .addCase(servicePostContact.rejected,(state,action)=>{
+              console.log(action);
+              state.isLoading = false;
+              state.error = action.payload;
+          })
+
+
+          builder.addCase(serviceDeletContact.pending,(state,action)=>{
+                state.isLoading = true;
+            })
+            .addCase(serviceDeletContact.fulfilled,(state,action)=>{
+                state.isLoading = false
+                state.error = null
+                state.items = state.items.filter(elem => elem.id !== action.payload.id)
+            })
+            .addCase(serviceDeletContact.rejected,(state,action) =>{
+                state.error = action.payload;
+            })
     }
+    // extraReducers:{
+    //     [serviceGetContactsApi.pending](state,action){
+    //         state.isLoading = true;
+    //     },
+    //     [serviceGetContactsApi.fulfilled](state,action){
+    //         state.isLoading = false;
+    //         state.error = null
+    //         state.items = action.payload;
+    //     },
+    //     [serviceGetContactsApi.rejected](state,action){
+    //         state.isLoading = false;
+    //         state.error = action.payload;
+    //     },
+    //     [servicePostContact.pending](state,action) {
+    //         state.isLoading = true;
+    //     },
+    //     [servicePostContact.fulfilled](state,action) {
+    //         state.isLoading = false;
+    //         state.error = null
+    //         state.items = [...state.items,action.payload]
+    //     },
+    //     [servicePostContact.rejected](state,action) {
+    //         // console.log(action);
+    //         state.isLoading = false;
+    //         state.error = action.payload;
+    //     },
+    //     [serviceDeletContact.pending](state,action) {
+    //         state.isLoading = true;
+    //     },
+    //     [serviceDeletContact.fulfilled](state,action) {
+    //         state.isLoading = false;
+    //         state.error = null
+    //         state.items = state.items.filter(elem => elem.id !== action.payload.id)
+    //     },
+    //     [serviceDeletContact.rejected](state,action) {
+    //         state.isLoading = false;
+    //         state.error = action.payload;
+    //     },
+        
+    // }
+    
 })
 
-export const getContact = state => state.contacts
+
 export const contactsReducer = contactSlice.reducer
 export const {addContact, removeContact} = contactSlice.actions;
+

@@ -1,29 +1,34 @@
 import { useDispatch} from "react-redux"
 import {ContactList,ElemList,DeletButton } from "./contacts.styled"
 import { useSelector } from "react-redux";
-import { getContact } from "redux/contact";
-import { removeContact } from "redux/contact"
+import { getContact, getFilter } from "redux/selectors";
+import { serviceDeletContact } from "serviceApi/serviceApi";
 
 
 export const Contacts = () =>{
 const contacts =useSelector(getContact)
-const filter = useSelector(state => state.filter);
+const filter = useSelector(getFilter);
+const contactsList =contacts.filter(elem => elem && elem.name.toLowerCase().includes(filter))
 
-const contactsList =contacts.filter(elem => elem.name.toLowerCase().includes(filter))
 
     const disPatch = useDispatch()
     return(
         <div>
             <ContactList> 
                {contactsList.map(elem => <ElemList key={elem.id}>
-                <p>
-                    {elem.name}: {elem.number}
-                </p>
+                <div>
+                    <p>
+                        {elem.name}: 
+                    </p>
+                    <p>
+                        {elem.phone}
+                    </p>
+                </div>
                 <DeletButton
                     id={elem.id}
 
                 onClick={()=>{
-                    disPatch(removeContact(elem.id))
+                    disPatch(serviceDeletContact(elem.id))
                 }}
                 >
                     Delete</DeletButton>

@@ -13,8 +13,9 @@ import {
 import { contactsReducer} from "./contact";
 import { filterReducer } from "./filter";
 
+
 const persistConfig = {
-    key: 'contact',
+    key: 'root',
     storage,
   }
   export const rootReducer = combineReducers({
@@ -25,15 +26,16 @@ const persistConfig = {
 const persistedContactsReducer = persistReducer(persistConfig, rootReducer )
     
 
-
 export const store = configureStore({
 reducer: persistedContactsReducer,
 
 middleware(getDefaultMiddleware){
-        return getDefaultMiddleware({
-            serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    })},
+  const defaultsMiddleware =  getDefaultMiddleware({
+    serializableCheck: {
+    ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+},
+})
+    return [...defaultsMiddleware]
+  },
 })
 export const persistor = persistStore(store)

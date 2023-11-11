@@ -5,14 +5,16 @@ export const ConteinerContacts = styled.div`
 padding: 15px;
 `
 export const ContactList = styled.ul`
+display: flex;
+flex-wrap: wrap;
 padding: 15px;
-max-width: 300px;
 list-style: none;
 padding: 0;
 margin: 0;
 border: 1px solid black;
 `
 export const ElemList = styled.li`
+width: 300px;
 display: flex;
 align-items: center;
 gap: 20px;
