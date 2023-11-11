@@ -15,29 +15,32 @@ import { getError } from "redux/selectors";
 export const App = () =>{
   const error = useSelector(getError)
   const disPatch = useDispatch()
-  disPatch(serviceGetContactsApi())
-      return (
-            <div>
-              <h1>Phonebook</h1>
 
-              <InputName 
+  disPatch(serviceGetContactsApi())
+
+      return (
+          <div>
+            <h1>Phonebook</h1>
+
+            <InputName 
               />
         
-              <h2>Contacts</h2>
+            <h2>Contacts</h2>
         
-              <InputFilter 
+            <InputFilter 
               tilteInput="Find contacts by name"
               /> 
 
-              <Contacts />
+            <Contacts />
 
-              <ConteinerLoader>
+            <ConteinerLoader>
                 <Loader/>
-              </ConteinerLoader>
-              {error && 
+            </ConteinerLoader>
+
+            {error && 
               Notiflix.Notify.failure(error)
-              }
-            </div>
+            }
+          </div>
           );
 
 }

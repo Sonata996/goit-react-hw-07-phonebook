@@ -26,7 +26,7 @@ export const contactSlice = createSlice({
             })
 
             
-        builder
+       
         .addCase(servicePostContact.pending,(state,action)=>{
             state.isLoading = true;
         })
@@ -42,7 +42,7 @@ export const contactSlice = createSlice({
           })
 
 
-          builder.addCase(serviceDeletContact.pending,(state,action)=>{
+          .addCase(serviceDeletContact.pending,(state,action)=>{
                 state.isLoading = true;
             })
             .addCase(serviceDeletContact.fulfilled,(state,action)=>{
@@ -54,47 +54,6 @@ export const contactSlice = createSlice({
                 state.error = action.payload;
             })
     }
-    // extraReducers:{
-    //     [serviceGetContactsApi.pending](state,action){
-    //         state.isLoading = true;
-    //     },
-    //     [serviceGetContactsApi.fulfilled](state,action){
-    //         state.isLoading = false;
-    //         state.error = null
-    //         state.items = action.payload;
-    //     },
-    //     [serviceGetContactsApi.rejected](state,action){
-    //         state.isLoading = false;
-    //         state.error = action.payload;
-    //     },
-    //     [servicePostContact.pending](state,action) {
-    //         state.isLoading = true;
-    //     },
-    //     [servicePostContact.fulfilled](state,action) {
-    //         state.isLoading = false;
-    //         state.error = null
-    //         state.items = [...state.items,action.payload]
-    //     },
-    //     [servicePostContact.rejected](state,action) {
-    //         // console.log(action);
-    //         state.isLoading = false;
-    //         state.error = action.payload;
-    //     },
-    //     [serviceDeletContact.pending](state,action) {
-    //         state.isLoading = true;
-    //     },
-    //     [serviceDeletContact.fulfilled](state,action) {
-    //         state.isLoading = false;
-    //         state.error = null
-    //         state.items = state.items.filter(elem => elem.id !== action.payload.id)
-    //     },
-    //     [serviceDeletContact.rejected](state,action) {
-    //         state.isLoading = false;
-    //         state.error = action.payload;
-    //     },
-        
-    // }
-    
 })
 
 
